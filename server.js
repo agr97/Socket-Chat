@@ -1,15 +1,25 @@
-const express = require("express");
-const http = require("http");
-const socketIo = require("socket.io");
+var express = require('express');
+var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+var path = require('path');
 
-var reactFrontend = require("./src/index");
+app.use(express.static(path.join(__dirname, 'build')))
 
-const app = express();
-var server = http.Server(app);
-app.use(reactFrontend);
+app.get('/', function(req, res){
+    res.sendFile(__dirname + '/build/index.html');
+  });
+  
 
 io.on('connection', function(socket){
   console.log('a user connected');
 });
 
-server.listen(3001, () => console.log(`Listening on port 3001`));
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname+'/build/index.html'));
+  });
+
+http.listen(3000, function(){
+  console.log('listening on *:3000');
+});
+
