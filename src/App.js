@@ -14,12 +14,35 @@ const forminput = {
 };
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {message: '', messages: []};
+
+  
+    this.handleChange = this.handleChange.bind(this);
+    this.submitMessage = this.submitMessage.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({message: event.target.value});
+  }
+
+  submitMessage(event) {
+    if (this.state.message != '')
+    {
+
+    }
+
+  }
+
   render() {
     return (
       <div className="App">
+      <div> Press Alt + Enter to submit message </div>
       <ul id="messages"></ul>
-      <form style ={form} action="">
-        <input style = {forminput} id="m" autocomplete="off" /><button>Send</button>
+      <form style ={form} onSubmit={this.submitMessage}>
+        <input style = {forminput} value={this.state.message} onChange={this.handleChange} />
+        <button type="submit" value="Send">Send</button>
       </form>
       </div>
     );

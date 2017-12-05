@@ -5,6 +5,7 @@ const socketIo = require("socket.io");
 var reactFrontend = require("./src/index");
 
 const app = express();
+var server = http.Server(app);
 app.use(reactFrontend);
 
 io.on('connection', function(socket){
