@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import socketIOClient from "socket.io-client";
+import io from "socket.io-client";
+
+io.connect();
 
 const form = {
   padding: '3px',
