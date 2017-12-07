@@ -12,10 +12,18 @@ var io = socketIo(server);
 app.get('/', function(req, res){
     res.sendFile(__dirname + '/build/index.html');
   });
-  
+
+var serverMessages = [1,2,3];
+
 io.on('connection', function(socket){
   console.log('a user connected');
+  socket.emit('receiveServerMessages', serverMessages);
 });
+
+io.on('receiveClientMessage', (message) => {
+    serverMessages.push(message);
+    console.log('message recieved: ' + message);
+})
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname+'/build/index.html'));

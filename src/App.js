@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import io from "socket.io-client";
+import socketIo from "socket.io-client";
 
-io.connect();
+var socket = socketIo.connect();
+socket.on('receiveServerMessages', (messages) => {
+  console.log(messages);
+})
 
 const form = {
   padding: '3px',
@@ -19,7 +22,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {message: '', messages: []};
-
   
     this.handleChange = this.handleChange.bind(this);
     this.submitMessage = this.submitMessage.bind(this);
@@ -30,17 +32,19 @@ class App extends Component {
   }
 
   submitMessage(event) {
-    if (this.state.message != '')
-    {
-
+    event.preventDefault();
+    if (this.state.message !== '') {
+      console.log(this.state.message);
+      socket.emit('receiveClientMessage', this.state.message);     
+      this.setState({message: ''});
     }
-
   }
+
+
 
   render() {
     return (
       <div className="App">
-      <div> Press Alt + Enter to submit message </div>
       <ul id="messages"></ul>
       <form style ={form} onSubmit={this.submitMessage}>
         <input style = {forminput} value={this.state.message} onChange={this.handleChange} />
