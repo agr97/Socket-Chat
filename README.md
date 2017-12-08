@@ -12,4 +12,4 @@ Then run
 In order to start the server. Then visit **localhost:3000** on multiple tabs or windows and chat between them.
 
 
-![Screenshot](https://imgur.com/a/XJMPw)
+![Screenshot](https://i.imgur.com/lodbNVe.png)
