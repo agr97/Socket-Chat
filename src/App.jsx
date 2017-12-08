@@ -15,6 +15,11 @@ const forminput = {
   width: '90%',
 };
 
+const button = {
+  padding: '10px',
+};
+
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -33,6 +38,7 @@ class App extends Component {
         this.setState({ messages: responseData });
       });
     }, 1000);
+    document.body.style.backgroundColor = '#e6f7ff';
   }
 
   handleChange(event) {
@@ -54,7 +60,7 @@ class App extends Component {
         <ul id="messages">{this.state.messages.map(message => <li>{message}</li>)}</ul>
         <form style={form} onSubmit={this.submitMessage}>
           <input style={forminput} value={this.state.message} onChange={this.handleChange} />
-          <button type="submit" value="Send">Send</button>
+          <button style={button} type="submit" value="Send">Send</button>
         </form>
       </div>
     );
