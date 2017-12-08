@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import socketIo from "socket.io-client";
 
 var socket = socketIo.connect();
-socket.on('receiveServerMessages', (messages) => {
+socket.on('updateMessages', (messages) => {
   console.log(messages);
+  window.App.updateMessages(messages);
 })
 
 const form = {
@@ -21,10 +22,22 @@ const forminput = {
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {message: '', messages: []};
+    this.state = 
+    {
+    message: '', 
+    messages: [], 
+    };
   
     this.handleChange = this.handleChange.bind(this);
     this.submitMessage = this.submitMessage.bind(this);
+  }
+
+  componentDidMount() {
+    this.timerID = setInterval(() => {
+      socket.emit('updateMessages', {data: 'null'}, (responseData) => {
+        this.setState({messages: responseData});
+      });
+    }, 1000);
   }
 
   handleChange(event) {
@@ -40,12 +53,10 @@ class App extends Component {
     }
   }
 
-
-
   render() {
     return (
       <div className="App">
-      <ul id="messages"></ul>
+      <ul id="messages">{this.state.messages}</ul>
       <form style ={form} onSubmit={this.submitMessage}>
         <input style = {forminput} value={this.state.message} onChange={this.handleChange} />
         <button type="submit" value="Send">Send</button>

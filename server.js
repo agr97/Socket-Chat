@@ -15,15 +15,20 @@ app.get('/', function(req, res){
 
 var serverMessages = [1,2,3];
 
-io.on('connection', function(socket){
+io.sockets.on('connection', function(socket){
   console.log('a user connected');
-  socket.emit('receiveServerMessages', serverMessages);
-});
+  
+  socket.on('updateMessages', function(data, callback){
+    callback(serverMessages);
+  });
 
-io.on('receiveClientMessage', (message) => {
+  socket.on('receiveClientMessage', (message) => {
     serverMessages.push(message);
     console.log('message recieved: ' + message);
-})
+  });
+
+
+});
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname+'/build/index.html'));
